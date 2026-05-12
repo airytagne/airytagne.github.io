@@ -1,36 +1,608 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-	<title>Stage officiel des pompiers de Morlais</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link href="style.css" rel="stylesheet" type="text/css"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airy Markel Tagne Kammegne — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky:#b8dff7;--sky-light:#e8f6ff;--sky-mid:#7ec8f0;--sky-deep:#3a9fd4;--sky-dark:#1a6fa0;
+  --ink:#0d2233;--ink-soft:#2d4a5e;--white:#ffffff;--cream:#f9fdff;
+  --accent:#ff7e5a;--gray:#6b8a9e;--border:rgba(184,223,247,0.4);
+  --star-on:#f5a623;--card-bg:#ffffff;--page-bg:#f9fdff;--text:#0d2233;--text-soft:#2d4a5e;
+}
+[data-theme="dark"] {
+  --sky-light:#0d2233;--sky-mid:#1a6fa0;--sky-deep:#7ec8f0;--sky-dark:#b8dff7;
+  --ink:#e8f6ff;--ink-soft:#b8dff7;--white:#0d2233;--cream:#071828;
+  --border:rgba(30,80,120,0.5);--card-bg:#0f2336;--page-bg:#071828;--text:#e8f6ff;--text-soft:#b8dff7;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--page-bg);color:var(--text);overflow-x:hidden;transition:background 0.3s,color 0.3s;}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:999;background:linear-gradient(135deg,#0d2233,#1a6fa0);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;}
+.splash-name{font-family:'DM Serif Display',serif;font-size:clamp(1.5rem,4vw,3rem);color:white;text-align:center;opacity:0;animation:fadeUp 0.8s 0.3s forwards;}
+.splash-sub{font-size:0.9rem;color:rgba(255,255,255,0.6);letter-spacing:0.2em;text-transform:uppercase;opacity:0;animation:fadeUp 0.8s 0.7s forwards;}
+.splash-bar{width:60px;height:2px;background:var(--sky-mid);margin-top:0.5rem;opacity:0;animation:fadeUp 0.8s 1s forwards;}
+#splash.hide{animation:splashOut 0.6s forwards;}
+@keyframes splashOut{to{opacity:0;pointer-events:none;}}
+
+/* THEME TOGGLE */
+.theme-btn{position:fixed;top:1rem;right:1rem;z-index:200;width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card-bg);color:var(--ink);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+.theme-btn:hover{transform:scale(1.1);}
+
+/* PAGES */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ACCUEIL */
+#accueil{position:relative;overflow:hidden;}
+#accueil.active{display:flex;align-items:center;justify-content:center;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#e8f6ff 0%,#b8dff7 40%,#7ec8f0 100%);transition:background 0.3s;}
+[data-theme="dark"] .hero-bg{background:linear-gradient(135deg,#071828 0%,#0d2233 40%,#0f3550 100%);}
+.hero-blob{position:absolute;border-radius:50%;background:rgba(255,255,255,0.15);animation:float 8s ease-in-out infinite;}
+[data-theme="dark"] .hero-blob{background:rgba(58,159,212,0.08);}
+.blob1{width:420px;height:420px;top:-80px;right:-80px;}
+.blob2{width:280px;height:280px;bottom:60px;left:-60px;animation-delay:-3s;}
+.blob3{width:180px;height:180px;top:50%;left:20%;animation-delay:-5s;}
+@keyframes float{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.03);}}
+
+.hero-center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;}
+.hero-greeting{font-size:1rem;font-weight:500;color:var(--sky-dark);letter-spacing:0.18em;text-transform:uppercase;opacity:0;animation:fadeUp 0.6s 0.2s forwards;}
+.hero-name{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,5vw,4rem);color:var(--ink);line-height:1.1;margin:0.3rem 0 0.6rem;text-align:center;opacity:0;animation:fadeUp 0.7s 0.4s forwards;}
+.hero-sub{font-size:1rem;color:var(--ink-soft);font-weight:300;letter-spacing:0.04em;text-align:center;max-width:420px;opacity:0;animation:fadeUp 0.7s 0.6s forwards;}
+
+.hero-cta-wrap{position:relative;margin-top:3.5rem;opacity:0;animation:fadeUp 0.7s 0.8s forwards;}
+.hero-cta{width:140px;height:140px;border-radius:50%;background:var(--ink);color:var(--white);border:none;cursor:pointer;font-family:'DM Serif Display',serif;font-size:1rem;font-style:italic;line-height:1.3;display:flex;align-items:center;justify-content:center;text-align:center;transition:transform 0.3s,box-shadow 0.3s;box-shadow:0 8px 40px rgba(13,34,51,0.25);}
+.hero-cta:hover{transform:scale(1.07);}
+.orbit-btn{position:absolute;padding:0.55rem 1.3rem;border-radius:50px;border:1.5px solid var(--sky-dark);background:rgba(255,255,255,0.85);color:var(--sky-dark);font-size:0.82rem;font-weight:500;cursor:pointer;white-space:nowrap;backdrop-filter:blur(8px);transition:all 0.25s;opacity:0;display:none;}
+[data-theme="dark"] .orbit-btn{background:rgba(13,34,51,0.85);color:var(--sky-deep);}
+.orbit-btn:hover{background:var(--sky-dark);color:white;transform:scale(1.05);}
+.orbit-btn.show{display:block;animation:popIn 0.4s forwards;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes popIn{from{opacity:0;transform:scale(0.7);}to{opacity:1;transform:scale(1);}}
+
+/* BACK BAR */
+.back-bar{display:flex;align-items:center;gap:0.7rem;padding:1rem 2rem;background:rgba(249,253,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;transition:background 0.3s;}
+[data-theme="dark"] .back-bar{background:rgba(7,24,40,0.92);}
+.back-btn{display:flex;align-items:center;gap:0.4rem;background:var(--sky-light);border:1px solid var(--border);border-radius:50px;padding:0.4rem 1rem;font-size:0.82rem;font-weight:500;color:var(--sky-dark);cursor:pointer;transition:all 0.2s;}
+.back-btn:hover{background:var(--sky-deep);color:white;}
+.back-page-title{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--ink-soft);}
+
+/* SECTION */
+.section-inner{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem;}
+.section-tag{font-size:0.78rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--sky-deep);margin-bottom:0.7rem;}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3rem);color:var(--ink);line-height:1.15;margin-bottom:2rem;}
+.divider{width:48px;height:3px;background:var(--sky-mid);border-radius:2px;margin-bottom:2rem;}
+
+/* FILTRES SAÉ */
+.filter-row{display:flex;gap:0.5rem;margin-bottom:2rem;flex-wrap:wrap;}
+.filter-btn{padding:0.45rem 1.2rem;border-radius:50px;border:1px solid var(--border);background:var(--card-bg);color:var(--ink-soft);font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.2s;}
+.filter-btn.active,.filter-btn:hover{background:var(--sky-deep);color:white;border-color:var(--sky-deep);}
+
+/* SAÉ GRID */
+.sae-semester{margin-bottom:3rem;}
+.semester-label{font-size:0.78rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--sky-deep);margin-bottom:1.2rem;padding-left:1rem;border-left:3px solid var(--sky-mid);}
+.sae-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.2rem;}
+.sae-card{background:var(--card-bg);border-radius:18px;border:1px solid var(--border);padding:1.4rem 1.4rem 3rem;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;}
+.sae-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--sky-mid),var(--sky-deep));transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
+.sae-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(58,159,212,0.15);border-color:var(--sky-mid);}
+.sae-card:hover::before{transform:scaleX(1);}
+.sae-card.hidden{display:none;}
+.sae-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:0.7rem;}
+.sae-icon{font-size:1.8rem;}
+.sae-stars span{font-size:0.9rem;}
+.sae-name{font-weight:600;font-size:0.95rem;color:var(--ink);margin-bottom:0.4rem;}
+.sae-desc{font-size:0.81rem;color:var(--gray);line-height:1.5;}
+.sae-group-badge{position:absolute;bottom:1rem;left:1.4rem;font-size:0.7rem;font-weight:600;color:var(--sky-dark);background:var(--sky-light);padding:0.2rem 0.6rem;border-radius:50px;border:1px solid var(--border);}
+.sae-arrow{position:absolute;bottom:1rem;right:1.2rem;width:26px;height:26px;border-radius:50%;background:var(--sky-light);color:var(--sky-dark);display:flex;align-items:center;justify-content:center;font-size:0.82rem;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(13,34,51,0.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--card-bg);border-radius:24px;max-width:600px;width:92%;max-height:84vh;overflow-y:auto;padding:2.5rem;position:relative;animation:slideUp 0.3s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.modal-nav{display:flex;justify-content:space-between;margin-bottom:1.5rem;}
+.modal-nav-btn{display:flex;align-items:center;gap:0.3rem;background:var(--sky-light);border:1px solid var(--border);border-radius:50px;padding:0.35rem 0.9rem;font-size:0.78rem;font-weight:500;color:var(--sky-dark);cursor:pointer;transition:all 0.2s;}
+.modal-nav-btn:hover{background:var(--sky-deep);color:white;}
+.modal-nav-btn:disabled{opacity:0.3;cursor:default;}
+.modal-close{position:absolute;top:1.2rem;right:1.2rem;width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--sky-light);color:var(--ink-soft);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;}
+.modal-top{display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem;}
+.modal-icon{font-size:2.2rem;}
+.modal-title{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--ink);}
+.modal-meta{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+.modal-badge{font-size:0.72rem;font-weight:600;padding:0.22rem 0.7rem;border-radius:50px;}
+.badge-sem{background:var(--sky-light);color:var(--sky-dark);border:1px solid var(--border);}
+.badge-group{background:#fff3ee;color:var(--accent);border:1px solid rgba(255,126,90,0.25);}
+[data-theme="dark"] .badge-group{background:#2a1810;color:#ff9070;}
+.badge-stars{background:#fff8e6;color:var(--star-on);border:1px solid #f5e0a0;}
+[data-theme="dark"] .badge-stars{background:#2a2010;}
+.modal-desc{font-size:0.92rem;color:var(--ink-soft);line-height:1.75;margin-bottom:1rem;}
+.modal-section-title{font-weight:600;font-size:0.8rem;color:var(--ink);margin:1.1rem 0 0.5rem;letter-spacing:0.06em;text-transform:uppercase;}
+.tag{display:inline-block;margin:0.18rem;padding:0.3rem 0.75rem;border-radius:50px;background:var(--sky-light);color:var(--sky-dark);font-size:0.78rem;font-weight:500;border:1px solid var(--border);}
+.modal-diff{background:var(--sky-light);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;padding:1rem 1.2rem;margin-top:0.8rem;}
+[data-theme="dark"] .modal-diff{background:#1a1010;}
+.modal-diff p{font-size:0.87rem;line-height:1.7;color:var(--ink-soft);}
+
+/* À PROPOS */
+.about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:3rem;align-items:start;}
+.about-photo-wrap{position:relative;}
+.photo-placeholder{width:100%;aspect-ratio:3/4;border-radius:24px;background:linear-gradient(160deg,var(--sky-light),var(--sky-mid));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:var(--sky-dark);border:2px dashed var(--sky-mid);cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.photo-placeholder img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:22px;}
+.photo-icon{font-size:2.5rem;}
+.photo-label{font-size:0.85rem;font-weight:500;text-align:center;padding:0 1rem;}
+#photo-input{display:none;}
+.about-badge{position:absolute;bottom:-12px;right:-12px;background:var(--accent);color:white;padding:0.5rem 1rem;border-radius:50px;font-size:0.78rem;font-weight:600;}
+.about-text p{font-size:1rem;line-height:1.85;color:var(--ink-soft);margin-bottom:1.2rem;}
+.about-text p:first-of-type::first-letter{font-family:'DM Serif Display',serif;font-size:3rem;float:left;line-height:0.85;margin-right:0.1em;color:var(--sky-deep);}
+.about-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}
+.chip{padding:0.35rem 0.9rem;border-radius:50px;background:var(--sky-light);color:var(--sky-dark);font-size:0.8rem;font-weight:500;border:1px solid var(--border);}
+
+/* TIMELINE BILAN */
+.bilan-layout{max-width:760px;}
+.bilan-intro{font-family:'DM Serif Display',serif;font-size:1.25rem;font-style:italic;color:var(--sky-dark);line-height:1.5;margin-bottom:2rem;padding-left:1.5rem;border-left:3px solid var(--sky-mid);}
+.bilan-text{font-size:1rem;line-height:1.9;color:var(--ink-soft);}
+.bilan-text p{margin-bottom:1.4rem;}
+.bilan-highlight{background:var(--sky-light);border:1px solid var(--border);border-radius:16px;padding:1.4rem 1.8rem;margin:1.8rem 0;font-style:italic;color:var(--ink-soft);}
+
+.timeline{position:relative;margin:2.5rem 0;padding-left:2rem;}
+.timeline::before{content:'';position:absolute;left:0.45rem;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--sky-mid),var(--sky-deep));}
+.tl-item{position:relative;margin-bottom:1.8rem;}
+.tl-dot{position:absolute;left:-1.65rem;top:0.3rem;width:14px;height:14px;border-radius:50%;background:var(--sky-deep);border:2px solid var(--card-bg);box-shadow:0 0 0 2px var(--sky-mid);}
+.tl-dot.ok{background:#4caf50;box-shadow:0 0 0 2px #a5d6a7;}
+.tl-dot.hard{background:var(--accent);box-shadow:0 0 0 2px #ffcbb8;}
+.tl-date{font-size:0.72rem;font-weight:600;color:var(--sky-deep);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.2rem;}
+.tl-title{font-weight:500;font-size:0.95rem;color:var(--ink);margin-bottom:0.25rem;}
+.tl-text{font-size:0.85rem;color:var(--gray);line-height:1.55;}
+
+/* CV */
+.cv-simple{max-width:480px;margin:0 auto;text-align:center;background:var(--card-bg);border-radius:24px;border:1px solid var(--border);padding:3rem 2.5rem;}
+.cv-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--sky-mid),var(--sky-dark));margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:2rem;color:white;}
+.cv-simple-name{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--ink);margin-bottom:0.3rem;}
+.cv-simple-sub{font-size:0.88rem;color:var(--gray);margin-bottom:2rem;}
+.cv-simple-text{font-size:0.9rem;color:var(--ink-soft);line-height:1.7;margin-bottom:2rem;}
+.cv-dl-btn{display:inline-flex;align-items:center;gap:0.6rem;padding:0.9rem 2.2rem;border-radius:50px;background:var(--ink);color:var(--white);font-size:0.92rem;font-weight:500;border:none;cursor:pointer;transition:all 0.2s;text-decoration:none;}
+.cv-dl-btn:hover{background:var(--sky-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,111,160,0.3);}
+
+/* FOOTER */
+footer{text-align:center;padding:2rem;font-size:0.78rem;color:var(--gray);border-top:1px solid var(--border);background:var(--card-bg);}
+
+@media(max-width:680px){
+  .about-grid{grid-template-columns:1fr;}
+  .hero-cta{width:115px;height:115px;font-size:0.88rem;}
+  .hero-name{font-size:1.6rem;}
+  .orbit-btn{font-size:0.75rem;padding:0.45rem 0.9rem;}
+}
+</style>
 </head>
 <body>
-	<div id="menu">
-		<h1>Sapeurs pompiers de Morlais</h1>
-		<ul>
-			<li><a href="./pages/centre.html">Le centre</a></li>
-			<li><a href="./pages/stats.html">Les stats </a></li>
-		</ul>
-	</div>
-	
-	<div id="centre">
-		<fieldset>
-		<legend>Comment appeler les pompiers ?</legend>
-		<h2>Composer le 18 ou le 112 (numéro d'urgence européen).</h2>
-		<h2>Composer uniquement ces numéros pour les urgences graves</h2>
-		<h2>Autres numéros d'urgence : 15 samu - 17 police</h2>
-		<h2>En cas de sinistre, indiquer :</h2>
-		<ul>
-			<li class="cligno">La nature du sinistre</li>
-			<li class="cligno">Le lieu</li>
-			<li class="cligno">Le nombre de victimes et leurs états</li>
-		</ul>
-		<center>
-		<!--photographie du centre du secours -->
-		???
-		</center>
-		</fieldset>
-	</div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <p class="splash-name">Airy Markel<br>Tagne Kammegne</p>
+  <p class="splash-sub">BUT Sciences des Données · Niort</p>
+  <div class="splash-bar"></div>
+</div>
+
+<!-- THEME -->
+<button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Mode sombre / clair">🌙</button>
+
+<!-- ===== ACCUEIL ===== -->
+<section id="accueil" class="page active">
+  <div class="hero-bg"></div>
+  <div class="hero-blob blob1"></div>
+  <div class="hero-blob blob2"></div>
+  <div class="hero-blob blob3"></div>
+  <div class="hero-center">
+    <p class="hero-greeting">Bonjour, je suis</p>
+    <h1 class="hero-name">Airy Markel<br>Tagne Kammegne</h1>
+    <p class="hero-sub">Étudiante en BUT Sciences des Données<br>IUT de Poitiers · Campus de Niort</p>
+    <div class="hero-cta-wrap">
+      <button class="hero-cta" id="main-cta" onclick="deployOrbit()">Découvrir<br>mon portfolio</button>
+      <button class="orbit-btn" style="top:-44px;left:-155px;" onclick="showPage('apropos')">👤 À propos</button>
+      <button class="orbit-btn" style="top:-44px;right:-145px;" onclick="showPage('sae')">🗂️ Projets SAé</button>
+      <button class="orbit-btn" style="bottom:-54px;left:-140px;" onclick="showPage('bilan')">📝 Mon bilan</button>
+      <button class="orbit-btn" style="bottom:-54px;right:-105px;" onclick="showPage('cv')">📄 CV</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== À PROPOS ===== -->
+<section id="apropos" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="goBack()">← Retour</button>
+    <span class="back-page-title">À propos de moi</span>
+  </div>
+  <div class="section-inner">
+    <p class="section-tag">Qui suis-je ?</p>
+    <h2 class="section-title">À propos de moi</h2>
+    <div class="divider"></div>
+    <div class="about-grid">
+      <div class="about-photo-wrap">
+        <div class="photo-placeholder" onclick="document.getElementById('photo-input').click()">
+          <img id="my-photo" src="" alt="" style="display:none;">
+          <div id="photo-placeholder-content">
+            <div class="photo-icon">📷</div>
+            <p class="photo-label">Clique pour ajouter ta photo</p>
+          </div>
+        </div>
+        <input type="file" id="photo-input" accept="image/*" onchange="loadPhoto(this)">
+        <span class="about-badge">BUT SD · S2</span>
+      </div>
+      <div class="about-text">
+        <p>Je m'appelle <strong>Airy Markel Tagne Kammegne</strong>, j'ai 18 ans et je suis étudiante en première année de <strong>BUT Sciences des Données</strong> à l'IUT de Poitiers, campus de Niort.</p>
+        <p>On pourrait croire que je suis réservée — et au premier abord, c'est vrai. Mais ceux qui me connaissent savent que derrière cette timidité se cache quelqu'un d'ouvert, d'enthousiaste et curieux de tout.</p>
+        <p>Passionnée par les mathématiques depuis le lycée (spécialités maths et physique-chimie), j'ai choisi les sciences des données pour allier rigueur analytique et nouveaux défis. L'informatique était un territoire inconnu — et c'est précisément pour ça que je l'ai choisi.</p>
+        <div class="about-chips">
+          <span class="chip">📊 Data Science</span><span class="chip">🧮 Mathématiques</span>
+          <span class="chip">📈 Statistiques</span><span class="chip">🐍 Python</span>
+          <span class="chip">🗄️ SQL / MySQL</span><span class="chip">📉 R</span>
+          <span class="chip">🔬 Curieuse</span><span class="chip">💪 Persévérante</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>Portfolio d'Airy Markel Tagne Kammegne · BUT Sciences des Données · IUT Poitiers – Niort · 2025–2026</footer>
+</section>
+
+<!-- ===== SAÉ ===== -->
+<section id="sae" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="goBack()">← Retour</button>
+    <span class="back-page-title">Projets SAé — travaux de groupe</span>
+  </div>
+  <div class="section-inner">
+    <p class="section-tag">Mes projets de groupe</p>
+    <h2 class="section-title">Situations d'Apprentissage et d'Évaluation</h2>
+    <div class="divider"></div>
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="filterSae('s1',this)">Semestre 1</button>
+      <button class="filter-btn" onclick="filterSae('s2',this)">Semestre 2</button>
+    </div>
+    <div id="sae-s1" class="sae-semester">
+      <p class="semester-label">Semestre 1</p>
+      <div class="sae-grid" id="grid-s1"></div>
+    </div>
+    <div id="sae-s2" class="sae-semester">
+      <p class="semester-label">Semestre 2</p>
+      <div class="sae-grid" id="grid-s2"></div>
+    </div>
+  </div>
+  <footer>Portfolio d'Airy Markel Tagne Kammegne · BUT Sciences des Données · IUT Poitiers – Niort · 2025–2026</footer>
+</section>
+
+<!-- ===== BILAN ===== -->
+<section id="bilan" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="goBack()">← Retour</button>
+    <span class="back-page-title">Mon bilan de 1ère année</span>
+  </div>
+  <div class="section-inner">
+    <p class="section-tag">Réflexion personnelle</p>
+    <h2 class="section-title">Mon bilan de 1ère année</h2>
+    <div class="divider"></div>
+    <div class="bilan-layout">
+      <p class="bilan-intro">« Une année de doutes, de travail acharné et finalement — de fierté. »</p>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot hard"></div>
+          <div class="tl-date">Septembre 2025 — Semestre 1</div>
+          <div class="tl-title">Un territoire inconnu</div>
+          <div class="tl-text">J'arrive en BUT SD sans jamais avoir fait d'informatique. Spécialités maths et physique-chimie au lycée. Les premiers cours de programmation confirment mes craintes : je décroche rapidement en informatique.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot hard"></div>
+          <div class="tl-date">Novembre – Décembre 2025</div>
+          <div class="tl-title">Les difficultés se confirment</div>
+          <div class="tl-text">Mauvaises notes en informatique qui ont un effet domino sur les autres matières. Même là où je m'en sortais bien, je ressens l'impact. La compétence 1 (informatique) n'est pas validée en fin de semestre.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Janvier 2026 — Résultats S1</div>
+          <div class="tl-title">Semestre 1 validé</div>
+          <div class="tl-text">Le semestre est validé malgré les difficultés. Ce n'est pas le résultat espéré, mais c'est un premier pas. Les mathématiques restent mon point fort, une ancre solide dans cette période compliquée.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot ok"></div>
+          <div class="tl-date">Février – Avril 2026 — Semestre 2</div>
+          <div class="tl-title">La progression commence</div>
+          <div class="tl-text">Les notes en informatique s'améliorent nettement. Je commence à comprendre la logique de la programmation. Cette progression a un effet positif sur toutes les autres matières. Je gagne en confiance.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot ok"></div>
+          <div class="tl-date">Mai – Juin 2026</div>
+          <div class="tl-title">Toutes compétences en hausse</div>
+          <div class="tl-text">Je suis très contente de mes résultats en S2. J'ai progressé dans toutes les compétences. Je construis des bases de données, produis des visualisations, et crée ce portfolio. C'est ma progression, et j'en suis fière.</div>
+        </div>
+      </div>
+
+      <div class="bilan-highlight">« Ce que j'ai appris cette année : le point de départ n'a aucune importance si on se donne les moyens d'avancer. Je ne savais pas coder en septembre. Aujourd'hui je code, j'analyse, je visualise. »</div>
+
+      <div class="bilan-text">
+        <p>Ce bilan, c'est aussi l'histoire d'une rencontre avec une discipline que je ne connaissais pas. La data science, c'est l'alliance parfaite entre les mathématiques que j'aime et des outils concrets pour résoudre de vrais problèmes. Cette année m'a prouvé que la curiosité et la persévérance sont mes véritables atouts.</p>
+        <p>Pour la suite, je veux approfondir Python et R, découvrir le HTML et CSS en 2ème année, et continuer à progresser sur l'analyse de données réelles. Cette première année était un tremplin — et je compte bien m'en servir.</p>
+      </div>
+    </div>
+  </div>
+  <footer>Portfolio d'Airy Markel Tagne Kammegne · BUT Sciences des Données · IUT Poitiers – Niort · 2025–2026</footer>
+</section>
+
+<!-- ===== CV ===== -->
+<section id="cv" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="goBack()">← Retour</button>
+    <span class="back-page-title">CV</span>
+  </div>
+  <div class="section-inner" style="display:flex;align-items:center;justify-content:center;min-height:70vh;">
+    <div class="cv-simple">
+      <div class="cv-avatar">AM</div>
+      <div class="cv-simple-name">Airy Markel Tagne Kammegne</div>
+      <div class="cv-simple-sub">Étudiante BUT Sciences des Données · IUT Poitiers – Niort</div>
+      <p class="cv-simple-text">Mon CV présente mon parcours, mes compétences techniques (Python, R, SQL, Excel) et les projets réalisés en première année de BUT Sciences des Données.</p>
+      <button class="cv-dl-btn" onclick="handleCvDownload()">⬇ Télécharger mon CV (PDF)</button>
+    </div>
+  </div>
+  <footer>Portfolio d'Airy Markel Tagne Kammegne · BUT Sciences des Données · IUT Poitiers – Niort · 2025–2026</footer>
+</section>
+
+<!-- MODAL SAÉ -->
+<div class="modal-overlay" id="sae-modal" onclick="closeSaeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeSaeModal()">✕</button>
+    <div class="modal-nav">
+      <button class="modal-nav-btn" id="btn-prev" onclick="navSae(-1)">← Précédent</button>
+      <button class="modal-nav-btn" id="btn-next" onclick="navSae(1)">Suivant →</button>
+    </div>
+    <div class="modal-top">
+      <div class="modal-icon" id="modal-icon"></div>
+      <div class="modal-title" id="modal-title"></div>
+    </div>
+    <div class="modal-meta" id="modal-meta"></div>
+    <p class="modal-desc" id="modal-desc"></p>
+    <div class="modal-section-title">💡 Ce que j'ai appris</div>
+    <div id="modal-appris"></div>
+    <div class="modal-section-title">✓ Compétences acquises</div>
+    <div id="modal-competences"></div>
+    <div class="modal-section-title">🔧 Outils utilisés</div>
+    <div id="modal-outils"></div>
+    <div class="modal-diff">
+      <div class="modal-section-title" style="margin-top:0">⚠️ Difficultés rencontrées</div>
+      <p id="modal-difficultes"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== SPLASH =====
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const s = document.getElementById('splash');
+    s.classList.add('hide');
+    setTimeout(() => s.style.display='none', 600);
+  }, 2000);
+});
+
+// ===== THEME =====
+let dark = false;
+function toggleTheme() {
+  dark = !dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : '');
+  document.getElementById('theme-btn').textContent = dark ? '☀️' : '🌙';
+}
+
+// ===== NAVIGATION =====
+let navHistory = ['accueil'];
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (navHistory[navHistory.length-1] !== id) navHistory.push(id);
+  window.scrollTo(0,0);
+}
+function goBack() {
+  if (navHistory.length > 1) {
+    navHistory.pop();
+    const prev = navHistory[navHistory.length-1];
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(prev).classList.add('active');
+    window.scrollTo(0,0);
+  }
+}
+
+// ===== ORBIT =====
+let orbDeployed = false;
+function deployOrbit() {
+  if (orbDeployed) return;
+  orbDeployed = true;
+  document.getElementById('main-cta').innerHTML = 'Explore !';
+  document.querySelectorAll('.orbit-btn').forEach((b,i) => {
+    b.classList.add('show');
+    b.style.animationDelay = (i*0.08)+'s';
+  });
+}
+
+// ===== PHOTO =====
+function loadPhoto(input) {
+  if (!input.files||!input.files[0]) return;
+  const r = new FileReader();
+  r.onload = e => {
+    const img = document.getElementById('my-photo');
+    img.src = e.target.result; img.style.display='block';
+    document.getElementById('photo-placeholder-content').style.display='none';
+  };
+  r.readAsDataURL(input.files[0]);
+}
+
+// ===== FILTER SAÉ =====
+function filterSae(sem, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const s1 = document.getElementById('sae-s1');
+  const s2 = document.getElementById('sae-s2');
+  if (sem==='s1') { s1.style.display=''; s2.style.display='none'; }
+  else { s1.style.display='none'; s2.style.display=''; }
+}
+
+// ===== SAÉ DATA =====
+const saeList = [
+  { key:'reporting', sem:'s1', icon:'📊', name:'Création d\'un reporting', stars:2, group:true,
+    desc:'Outil personnel de gestion des notes BUT SD avec Excel : base de données structurée, tableaux de bord dynamiques avec graphiques variés, et décision de jury automatique en fin d\'année.',
+    appris:['Structurer une BDD dans Excel','Créer des graphiques dynamiques','Appliquer des règles de jury automatiques','Concevoir une interface ergonomique'],
+    competences:['Opérationnalité Excel','Tableaux de bord','Règles de gestion','Ergonomie'],
+    outils:['Excel','VBA'],
+    diff:'La principale difficulté était le travail en binôme : lorsque ton partenaire ne maîtrise pas bien sa partie, c\'est compliqué d\'avancer ensemble et de garantir un rendu cohérent. Sur le plan technique, j\'ai bien géré la mise en place des règles de jury automatiques, mais la gestion des erreurs — notamment la modification d\'une note déjà saisie — était plus problématique et demandait une logique plus complexe à mettre en place.' },
+
+  { key:'fichiers', sem:'s1', icon:'📁', name:'Écriture et lecture de fichiers', stars:4, group:true,
+    desc:'À partir d\'un fichier JSON de mesures de polluants atmosphériques à Poitiers, produire un fichier CSV propre (station, coordonnées, date française, polluant, valeur) en ne gardant que les lignes complètes.',
+    appris:['Parser un fichier JSON en Python','Filtrer les lignes incomplètes','Reformater des dates en français','Écrire un CSV lisible dans Excel'],
+    competences:['Manipulation JSON/CSV','Nettoyage de données','Scripts Python commentés','Bonnes pratiques de développement'],
+    outils:['Python','Pandas','json','csv'],
+    diff:'La gestion des accents et de l\'encodage UTF-8 pour qu\'Excel lise correctement le fichier était une vraie source de bugs. Comprendre la structure imbriquée du JSON demandait de la méthode et de la patience.' },
+
+  { key:'tableau', sem:'s1', icon:'🧹', name:'Préparation d\'un tableau de données', stars:3, group:true,
+    desc:'Nettoyage, préparation et synthèse d\'un jeu de données brutes : gestion des valeurs manquantes, création de nouvelles variables, formatage pour une analyse exploratoire.',
+    appris:['Traiter les valeurs manquantes','Recoder des variables','Préparer les données pour l\'analyse','Documenter les transformations'],
+    competences:['Nettoyage de données','Analyse exploratoire','Création de variables','Synthèse statistique'],
+    outils:['Python','Pandas','NumPy','R'],
+    diff:'Prendre des décisions sur ce qu\'il faut garder ou écarter dans un jeu de données réel, sans règle fixe, demandait du recul et de la réflexion. Anticiper les problèmes de qualité (valeurs aberrantes, formats incohérents) était un apprentissage en soi.' },
+
+  { key:'entreprise', sem:'s1', icon:'🏢', name:'Production de données en entreprise', stars:2, group:true,
+    desc:'Rapport sur le réarmement démographique de la France à partir de bases de données nationales (INSEE). Extraction d\'indicateurs, graphiques, analyse par commune et comparaison nationale.',
+    appris:['Naviguer dans des bases volumineuses','Extraire et synthétiser des indicateurs','Rédiger un rapport structuré','Produire des graphiques pertinents'],
+    competences:['Recherche en bases de données','Production d\'indicateurs','Rédaction de rapport','Dataviz descriptive'],
+    outils:['Excel','Bases INSEE'],
+    diff:'Ce projet a été réalisé dans un environnement informatique dégradé. La coordination en groupe a aussi été un défi : répartir les tâches, avancer au même rythme et garantir que chacun s\'approprie l\'ensemble du travail. Le retour enseignant a souligné le manque de graphiques et d\'indicateurs statistiques avancés.' },
+
+  { key:'anglais', sem:'s1', icon:'🌍', name:'Présentation en anglais d\'un territoire', stars:3, group:true,
+    desc:'Présentation orale bilingue : 8 min en français (ville française — histoire, culture, attractivité gen Z) et 8 min en anglais (ville jumelée — économie, population, métiers du numérique, données).',
+    appris:['Structurer une présentation bilingue','Rechercher des données territoriales','Présenter à l\'oral clairement','Rédiger un écrit économique en anglais'],
+    competences:['Expression orale en anglais','Présentation de données','Recherche documentaire','Communication professionnelle'],
+    outils:['PowerPoint','Sources documentaires'],
+    diff:'La principale difficulté était de s\'exprimer en public en anglais. Prendre la parole devant un groupe, gérer le stress de l\'oral tout en veillant à la prononciation et au vocabulaire technique — c\'est un exercice qui ne s\'improvise pas. Trouver les bonnes données économiques sur la ville jumelée et les restituer de façon claire et structurée en anglais demandait également une vraie préparation.' },
+
+  { key:'enquete', sem:'s1', icon:'🔍', name:'Mise en œuvre d\'une enquête', stars:3, group:true,
+    desc:'Enquête sur les jeunes et les réseaux sociaux (usage, intérêt, engagement avec les marques). Cahier des charges QQOQCCP, organigramme, questionnaire Sphinx d\'environ 20 questions avec logiques de routage.',
+    appris:['Rédiger un cahier des charges','Concevoir un questionnaire avec routage','Structurer les questions par catégories','Analyser des données primaires'],
+    competences:['Méthodologie d\'enquête','Conception de questionnaire','Outil Sphinx','Analyse de données primaires'],
+    outils:['Sphinx','Word'],
+    diff:'Concevoir 20 questions sans questions ouvertes tout en couvrant toutes les dimensions demandait de la créativité. Les logiques de routage dans Sphinx étaient techniques et nécessitaient de bien maîtriser l\'outil avant de commencer.' },
+
+  { key:'bdd', sem:'s2', icon:'🗄️', name:'Conception d\'une base de données', stars:3, group:true,
+    desc:'Modélisation complète d\'une base de données relationnelle (MCD → MLD), implémentation SQL sous MySQL/phpMyAdmin avec opérations CRUD, et développement d\'une interface graphique Tkinter en Python pour interagir avec la base.',
+    appris:['Modéliser un MCD et un MLD','Écrire des requêtes SQL','Implémenter une BDD dans MySQL','Créer une interface graphique Tkinter connectée à une BDD'],
+    competences:['Modélisation de données','Langage SQL','MySQL / phpMyAdmin','Interface graphique Python Tkinter'],
+    outils:['MySQL','phpMyAdmin','XAMPP','SQL','Python','Tkinter'],
+    diff:'Le passage du MCD au MLD puis à l\'implémentation concrète demandait de jongler entre plusieurs niveaux d\'abstraction. Connecter l\'interface Tkinter à la base de données via SQLAlchemy et gérer les erreurs de curseur et de connexion ont été les points les plus techniques à déboguer.' },
+
+  { key:'echantillonnage', sem:'s2', icon:'🎲', name:'Estimation par échantillonnage', stars:3, group:true,
+    desc:'Application des méthodes statistiques d\'estimation à des données réelles : TCL, distributions d\'échantillonnage, intervalles de confiance sur des cas concrets.',
+    appris:['Appliquer le théorème central limite','Construire des distributions d\'échantillonnage','Calculer des intervalles de confiance','Interpréter des résultats d\'estimation'],
+    competences:['Statistiques inférentielles','Théorème central limite','Intervalles de confiance','R et calculs manuels'],
+    outils:['R','RStudio','Calculs manuels'],
+    diff:'Distinguer variance de la population, variance empirique et variance de la moyenne d\'échantillonnage était abstrait au départ. Manipuler les bonnes notations dans les formules demandait beaucoup de rigueur.' },
+
+  { key:'regression', sem:'s2', icon:'📈', name:'Régression sur données réelles', stars:3, group:true,
+    desc:'Régression manuelle (sans lm() ni predict()) sur des données immobilières de la région de Niort. Objectif R² > 0,5, segmentation par type de bien et zone géographique.',
+    appris:['Calculer manuellement les coefficients','Valider un modèle par R²','Interpréter les résultats','Comparer modèles linéaire, puissance, exponentiel'],
+    competences:['Régression linéaire et non linéaire','Calcul manuel des coefficients','Validation de modèle','Interprétation statistique'],
+    outils:['R','RStudio','ggplot2'],
+    diff:'Effectuer la régression sans les fonctions automatiques de R obligeait à comprendre les formules en profondeur. Choisir et justifier le meilleur modèle parmi plusieurs alternatives demandait un vrai regard critique.' },
+
+  { key:'dataviz', sem:'s2', icon:'🎨', name:'Dataviz (concours)', stars:3, group:true,
+    desc:'Concours de visualisation de données : créer des graphiques percutants, pertinents et esthétiques sous contrainte de temps. Travail d\'équipe créatif.',
+    appris:['Choisir le graphique adapté au message','Soigner l\'esthétique et la lisibilité','Faire du data storytelling','Travailler sous pression en équipe'],
+    competences:['Data storytelling','Choix du graphique','Esthétique visuelle','Travail en équipe'],
+    outils:['Python','Matplotlib','Seaborn','R','ggplot2'],
+    diff:'Conjuguer créativité et rigueur statistique dans un temps limité était challengeant. Aligner les visions de chaque membre du groupe sur les choix graphiques demandait communication et compromis.' },
+
+  { key:'indicateurs', sem:'s2', icon:'📌', name:'Indicateurs de performance', stars:3, group:true,
+    desc:'Définition, calcul et présentation de KPIs pertinents pour une organisation : sélection des indicateurs, construction du tableau de bord, présentation au commanditaire.',
+    appris:['Définir des indicateurs pertinents','Calculer et interpréter des KPIs','Construire un tableau de bord synthétique','Présenter à un commanditaire'],
+    competences:['Définition de KPIs','Tableaux de bord','Communication avec commanditaire','Synthèse de données'],
+    outils:['Excel','Python'],
+    diff:'Choisir les bons indicateurs parmi de nombreuses possibilités demandait de bien comprendre le contexte métier. Vulgariser les résultats pour un commanditaire sans dénaturer l\'analyse était un exercice de communication délicat.' },
+
+  { key:'datavis2', sem:'s2', icon:'🖥️', name:'Analyse, reporting & datavisualisation', stars:3, group:true,
+    desc:'Projet complet : analyse exploratoire d\'un jeu de données réelles, rapport structuré et visualisations avancées (histogrammes, boxplots, nuages de points, graphiques bivariés) sous R.',
+    appris:['Mener une analyse exploratoire complète','Produire des graphiques univariés et bivariés','Rédiger un rapport de datavisualisation','Interpréter et commenter les résultats'],
+    competences:['Analyse exploratoire','Graphiques R','Rédaction de rapport','Interprétation statistique'],
+    outils:['R','RStudio','ggplot2','RColorBrewer'],
+    diff:'Reproduire précisément des graphiques complexes sous R avec tous leurs paramètres (couleurs, marges, légendes, étiquettes) demandait de maîtriser de nombreuses options simultanément. La syntaxe R pour chaque détail visuel était parfois longue à trouver.' },
+
+  { key:'portfolio', sem:'s2', icon:'🌐', name:'Portfolio numérique', stars:3, group:false,
+    desc:'Conception et réalisation de ce portfolio numérique personnel : travail réflexif sur les apprentissages de l\'année, mise en valeur des compétences et des projets, hébergement sur les serveurs de l\'IUT.',
+    appris:['Réfléchir sur ses propres apprentissages','Structurer et présenter ses compétences','Initiation HTML, CSS et JavaScript','Organiser un contenu pour différents publics'],
+    competences:['Travail réflexif','HTML / CSS / JS','Organisation de contenu','Communication professionnelle'],
+    outils:['HTML','CSS','JavaScript','Serveurs SD de l\'IUT'],
+    diff:'L\'exercice de réflexivité — parler de soi avec justesse et recul — était plus difficile que prévu. Trouver l\'équilibre entre dimension personnelle et sérieux attendu par les enseignants et les recruteurs demandait de nombreux ajustements.' }
+];
+
+// Génération des cartes SAé
+function renderStars(n) {
+  let h='';
+  for(let i=1;i<=5;i++) h+=`<span style="color:${i<=n?'#f5a623':'#d0e8f5'};font-size:0.88rem;">★</span>`;
+  return h;
+}
+function buildCards() {
+  const g1 = document.getElementById('grid-s1');
+  const g2 = document.getElementById('grid-s2');
+  saeList.forEach((d,idx) => {
+    const card = document.createElement('div');
+    card.className = 'sae-card';
+    card.dataset.key = d.key;
+    card.dataset.sem = d.sem;
+    card.innerHTML = `
+      <div class="sae-card-top">
+        <div class="sae-icon">${d.icon}</div>
+        <div class="sae-stars">${renderStars(d.stars)}</div>
+      </div>
+      <div class="sae-name">${d.name}</div>
+      <div class="sae-desc">${d.desc.substring(0,80)}...</div>
+      <div class="sae-group-badge">${d.group?'👥 Groupe':'👤 Individuel'}</div>
+      <div class="sae-arrow">→</div>`;
+    card.onclick = () => openSaeByIndex(idx);
+    (d.sem==='s1'?g1:g2).appendChild(card);
+  });
+}
+buildCards();
+// Afficher S1 par défaut, cacher S2
+document.getElementById('sae-s2').style.display = 'none';
+
+// Modal SAÉ
+let currentSaeIdx = 0;
+function openSaeByIndex(idx) {
+  currentSaeIdx = idx;
+  const d = saeList[idx];
+  let stars='';
+  for(let i=1;i<=5;i++) stars+=`<span style="color:${i<=d.stars?'#f5a623':'#d0e8f5'};font-size:1rem;">★</span>`;
+  document.getElementById('modal-icon').textContent = d.icon;
+  document.getElementById('modal-title').textContent = d.name;
+  document.getElementById('modal-meta').innerHTML =
+    `<span class="modal-badge badge-sem">${d.sem==='s1'?'Semestre 1':'Semestre 2'}</span>` +
+    `<span class="modal-badge badge-group">${d.group?'👥 Projet de groupe':'👤 Individuel'}</span>` +
+    `<span class="modal-badge badge-stars">${stars}</span>`;
+  document.getElementById('modal-desc').textContent = d.desc;
+  document.getElementById('modal-appris').innerHTML = d.appris.map(a=>`<span class="tag">💡 ${a}</span>`).join('');
+  document.getElementById('modal-competences').innerHTML = d.competences.map(c=>`<span class="tag">✓ ${c}</span>`).join('');
+  document.getElementById('modal-outils').innerHTML = d.outils.map(o=>`<span class="tag">🔧 ${o}</span>`).join('');
+  document.getElementById('modal-difficultes').textContent = d.diff;
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').disabled = idx === saeList.length-1;
+  document.getElementById('sae-modal').classList.add('open');
+}
+function navSae(dir) { openSaeByIndex(currentSaeIdx + dir); }
+function closeSaeModal(e) {
+  if (!e || e.target===document.getElementById('sae-modal')) {
+    document.getElementById('sae-modal').classList.remove('open');
+  }
+}
+
+function handleCvDownload() {
+  alert('Place ton fichier CV nommé "cv_airy_tagne.pdf" dans le même dossier que ce fichier HTML sur le serveur SD. Le téléchargement fonctionnera automatiquement.');
+}
+</script>
 </body>
 </html>
